@@ -12,6 +12,7 @@ import com.mongodb.client.MongoDatabase;
 import caching.sandbox.dao.CountryDAO;
 import caching.sandbox.dao.EmployeeDAO;
 import caching.sandbox.databases.DatabaseAdapter;
+import caching.sandbox.databases.DatabaseTables;
 import caching.sandbox.databases.MongoDbAdapter;
 import caching.sandbox.models.Country;
 import caching.sandbox.models.Employee;
@@ -25,12 +26,15 @@ public class DummyData {
 			return;
 		}
 
-		String sql = new StringBuilder("CREATE TABLE IF NOT EXISTS countries (")
+		String sql = new StringBuilder("CREATE TABLE IF NOT EXISTS ")
+				.append(DatabaseTables.COUNTRIES.getName())
+				.append(" ( ")
 				.append("country_alpha2Code STRING PRIMARY KEY, ")
 				.append("country_name STRING NOT NULL, ")
 				.append("country_alpha3Code STRING, ")
 				.append("country_numericCode STRING, ")
-				.append("country_domain STRING);")
+				.append("country_domain STRING")
+				.append(" );")
 				.toString();
 
 		try (Connection c = (Connection) db.use(); Statement st = c.createStatement())

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.mongodb.client.MongoDatabase;
 
+import caching.sandbox.caches.Caches;
+import caching.sandbox.caches.CaffeineCountryCache;
 import caching.sandbox.caches.GuavaCountryCache;
 import caching.sandbox.databases.DatabaseAdapter;
 import caching.sandbox.databases.MongoDbAdapter;
@@ -43,17 +45,29 @@ public class Main {
 		// CountryDAO.getCountry(sandboxSqliteDb, "IT").toString());
 
 		/*
-		 * Get countries via Guava cache
+		 * Get countries via cache
 		 */
-		GuavaCountryCache guavaCountryCache = new GuavaCountryCache(sandboxSqliteDb);
-		Optional<Country> germany = guavaCountryCache.getCountry("DE");
-		System.out.println(germany.get().toString());
+		Caches.initCaches(sandboxMongoDb);
 
+		// Guava cache
+//		GuavaCountryCache guavaCountryCache = Caches.getGuavaCountryCache();
+//		Optional<Country> germany = guavaCountryCache.getCountry("DE");
+//		System.out.println(germany.get().toString());
+//
+//		for (int i = 0; i < 7; i++)
+//		{
+//			guavaCountryCache.getCountry("US");
+//			guavaCountryCache.getCountry("GB");
+//		}
+//		System.out.println(guavaCountryCache.getCountry("RU").get().toString());
+
+		// Caffeine cache
+		CaffeineCountryCache caffeineCountryCache = Caches.getCaffeineCountryCache();
+		caffeineCountryCache.getCountry("PT");
 		for (int i = 0; i < 7; i++)
 		{
-			guavaCountryCache.getCountry("US");
-			guavaCountryCache.getCountry("GB");
+			caffeineCountryCache.getCountry("PT");
 		}
-		System.out.println(guavaCountryCache.getCountry("RU").get().toString());
+		System.out.println(caffeineCountryCache.getCountry("PT").get().toString());
 	}
 }

@@ -13,6 +13,7 @@ import caching.sandbox.databases.DatabaseAdapter;
 import caching.sandbox.models.Country;
 
 public class GuavaCountryCache {
+	
 	private final LoadingCache<String, Country> guavaCache;
 	private int countDbAccesses;
 
@@ -27,11 +28,11 @@ public class GuavaCountryCache {
 		try
 		{
 			System.out.println("===== New request to GuavaCountryCache for: " + alpha2Code + " =====");
-			System.out.println("Guava Cache request counter before request:" + countDbAccesses);
+			System.out.println("Number of Guava cache database accesses before request:" + countDbAccesses);
 			
 			Optional<Country> country = Optional.ofNullable(guavaCache.get(alpha2Code));
 			
-			System.out.println("Guava Cache request counter after request:" + countDbAccesses);
+			System.out.println("Number of Guava cache database accesses after request:" + countDbAccesses);
 			System.out.println("===== ===== =====");
 			
 			return country;
