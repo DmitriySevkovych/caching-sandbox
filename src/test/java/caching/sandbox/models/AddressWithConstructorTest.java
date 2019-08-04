@@ -9,7 +9,7 @@ public class AddressWithConstructorTest {
 	
 	@Test
 	public void buildAddress() {
-		Country deutschland = new Country("DE", "Deutschland");
+		Country deutschland = new Country("DE",  "Deutschland");
 		String zipCode = "70374";
 		String city = "Stuttgart";
 		String street = "Beskidenstr.";
@@ -32,7 +32,7 @@ public class AddressWithConstructorTest {
 	}
 	
 	public void whenCityNotMatchingZipcode_adjustCity() {
-		Country deutschland = new Country("DE", "Deutschland");
+		Country deutschland = new Country("DE",  "Deutschland");
 		String zipCode = "70374";
 		String city = "Hamburg";
 		String street = "Beskidenstr.";

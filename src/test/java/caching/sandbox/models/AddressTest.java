@@ -9,7 +9,7 @@ public class AddressTest {
 	
 	@Test
 	public void buildAddress() {
-		Country deutschland = new Country("DE", "Deutschland");
+		Country deutschland = new Country("DE",  "Deutschland");
 		String zipCode = "70374";
 		String city = "Stuttgart";
 		String street = "Beskidenstr.";

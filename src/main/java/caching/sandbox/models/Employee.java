@@ -2,11 +2,11 @@ package caching.sandbox.models;
 
 import com.mongodb.lang.NonNull;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
+@Builder
 public class Employee {
 
 	@NonNull
@@ -15,6 +15,7 @@ public class Employee {
 	private String lastName;
 	@NonNull
 	private int age;
+	private Address address;
 	private double salary;
 //	private Department department;
 

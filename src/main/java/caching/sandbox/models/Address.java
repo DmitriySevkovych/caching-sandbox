@@ -1,13 +1,11 @@
 package caching.sandbox.models;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NonNull;
-import lombok.ToString;
 
 @Builder
-@Getter
-@ToString
+@Data
 public class Address {
 	
 	@NonNull private Country country;
