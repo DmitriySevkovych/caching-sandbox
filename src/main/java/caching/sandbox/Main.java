@@ -1,56 +1,36 @@
 package caching.sandbox;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
 
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
-
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
-import caching.sandbox.dao.DepartmentDAO;
-import caching.sandbox.dao.EmployeeDAO;
-import caching.sandbox.models.Department;
-import caching.sandbox.models.Employee;
+import caching.sandbox.dao.CountryDAO;
+import caching.sandbox.databases.DatabaseAdapter;
+import caching.sandbox.databases.MongoDbAdapter;
+import caching.sandbox.databases.SqliteAdapter;
+import caching.sandbox.models.Country;
 
 public class Main {
-	
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
+		DatabaseAdapter<MongoDatabase> sandboxMongoDb = new MongoDbAdapter("sandbox");
+		DatabaseAdapter<Connection> sandboxSqliteDb = new SqliteAdapter("caching-sandbox.db");
 
-		CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-				CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+		// Add countries to MongoDB
+		// DummyData.addSampleCountriesToDatabase(sandboxMongoDb,
+		// DummyData.createSampleCountries());
+
+		// Add countries to relational DB
+		// DummyData.addSampleCountriesToDatabase(sandboxSqliteDb,
+		// DummyData.createSampleCountries());
+
+		Country c1 = CountryDAO.getCountry(sandboxMongoDb, "DE");
+		System.out.println("Country queried from MongoDB: " + c1.toString());
+		System.out.println("Country queried from MongoDB: " + CountryDAO.getCountry(sandboxMongoDb, "FR").toString());
 		
-		MongoClientSettings settings = MongoClientSettings.builder()
-		        .codecRegistry(pojoCodecRegistry)
-		        .build();
-		
-		MongoClient mongoClient = MongoClients.create(settings);
-		System.out.println("MongoClient instantiated: connection to MongoDB server OK!");
-		
-		MongoDatabase sandboxDb = mongoClient.getDatabase("sandbox");
-		System.out.println("Get database: " + sandboxDb.getName());
-		
-		// Employees dummy data
-		List<Employee> programmers = new ArrayList<>();
-		
-		programmers.add(new Employee("Vasyl", "Sirko", 34, 4500));
-		programmers.add(new Employee("Petro", "Petrenko", 45, 3245.5));
-		programmers.add(new Employee("Taras", "Tarasov", 67, 5200));
-		
-		programmers.forEach( p -> EmployeeDAO.addEmployee(sandboxDb, p));
-		
-		// Departments dummy data
-		Department itDepartment = new Department("IT", 100000, programmers);
-		Department hrDepartment = new Department("HR", 50000, new ArrayList<Employee>());
-		Department fcDepartment = new Department("F&C", 45000, new ArrayList<Employee>());
-		
-		DepartmentDAO.addDepartment(sandboxDb,itDepartment);
-		DepartmentDAO.addDepartment(sandboxDb,hrDepartment);
-		DepartmentDAO.addDepartment(sandboxDb,fcDepartment);
+		Country c2 = CountryDAO.getCountry(sandboxSqliteDb, "UA");
+		System.out.println("Country queried from SQLite: " + c2.toString());
+		System.out.println("Country queried from SQLite: " + CountryDAO.getCountry(sandboxSqliteDb, "IT").toString());
 	}
 }

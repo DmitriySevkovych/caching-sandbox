@@ -34,6 +34,17 @@ dependencies {
     // MongoDB driver
     compile 'org.mongodb:mongodb-driver-sync:3.10.2'
     
+    // PostgreSQL driver
+	compile 'org.postgresql:postgresql:42.2.6'
+    
+    // SQLite driver
+    compile 'org.xerial:sqlite-jdbc:3.28.0'
+    
+    // Caffeine cache
+    compile 'com.github.ben-manes.caffeine:caffeine:2.7.0'
+	//compile 'com.github.ben-manes.caffeine:guava:2.7.0'
+	//compile 'com.github.ben-manes.caffeine:jcache:2.7.0'
+    
     // Google Guava
     compile 'com.google.guava:guava:28.0-jre'
     
